@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin20dp">20dp</dimen>
+    <dimen name="addEditTest50dp">50dp</dimen>
+    <dimen name="addSwitch80dp">80dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+</resources>

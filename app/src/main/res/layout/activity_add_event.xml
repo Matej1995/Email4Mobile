@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addEventLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.AddEvent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/mainToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorAccent"
+        android:elevation="4dp"
+        android:theme="@style/ToolbarTheme"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@android:drawable/ic_menu_send"
+            android:text="@string/save"
+            android:layout_marginRight="@dimen/margin20dp"
+            android:drawablePadding="5dp"
+            android:textSize="21dp"
+            android:layout_weight="1"
+            android:gravity="right"
+
+            />
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/margin20dp"
+        android:layout_marginRight="@dimen/margin20dp">
+
+
+        <EditText
+            android:id="@+id/add_tittle"
+            android:layout_marginTop="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/addEditTest50dp"
+            android:hint="Title" />
+
+        <EditText
+            android:id="@+id/add_location"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/addEditTest50dp"
+            android:layout_below="@id/add_tittle"
+            android:hint="Location" />
+
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/addSwitch80dp"
+            android:layout_below="@id/add_location"
+            android:text="Celodenní" />
+
+
+        <TextView
+            android:id="@+id/startPickerDate"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/addEditTest50dp"
+            android:layout_below="@id/switch1"
+            android:onClick="clickOnDate" />
+
+        <TextView
+            android:id="@+id/startPickerHours"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/addEditTest50dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/switch1"
+            android:onClick="clickOnDate" />
+
+        <TextView
+            android:id="@+id/endTimePickerDate"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/addEditTest50dp"
+            android:layout_below="@id/startPickerDate"
+            android:onClick="clickOnDate" />
+
+        <TextView
+            android:id="@+id/endTimePickerHours"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/addEditTest50dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/startPickerHours"
+            android:onClick="clickOnDate" />
+
+
+        <TextView
+            android:id="@+id/repeat"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/addEditTest50dp"
+            android:layout_below="@id/endTimePickerHours"
+            android:onClick="clickOnDate"
+            android:text="Opakování" />
+
+        <TextView
+            android:id="@+id/repeatText"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/addEditTest50dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/endTimePickerHours"
+            android:text="Pouze jednou" />
+
+        <TextView
+            android:id="@+id/alert"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/addEditTest50dp"
+            android:layout_below="@id/repeat"
+            android:onClick="clickOnDate"
+            android:text="Upozornění" />
+
+        <TextView
+            android:id="@+id/alertTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/addEditTest50dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/repeatText"
+            android:text="30 minut před" />
+
+        <TextView
+            android:id="@+id/important"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/addEditTest50dp"
+            android:layout_below="@id/alert"
+            android:onClick="clickOnDate"
+            android:text="Důležitost" />
+
+        <TextView
+            android:id="@+id/importantTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/addEditTest50dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/alertTitle"
+            android:text="Osobní" />
+
+    </RelativeLayout>
+</RelativeLayout>
