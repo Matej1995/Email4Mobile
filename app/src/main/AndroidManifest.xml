@@ -3,6 +3,7 @@
     package="app.email4mobile">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -17,6 +18,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.activity.AddEvent">
+
+        </activity>
+
+        <activity android:name=".ui.activity.SendEmail">
+
+        </activity>
+
+        <activity android:name=".ui.activity.DetailEmail">
+
         </activity>
     </application>
 

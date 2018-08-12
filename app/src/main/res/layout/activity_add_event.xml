@@ -17,6 +17,7 @@
         android:theme="@style/ToolbarTheme"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
         <TextView
+            android:id="@+id/saveDataToDb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableRight="@android:drawable/ic_menu_send"
@@ -24,6 +25,7 @@
             android:layout_marginRight="@dimen/margin20dp"
             android:drawablePadding="5dp"
             android:textSize="21dp"
+            android:onClick="clickOnDate"
             android:layout_weight="1"
             android:gravity="right"
 

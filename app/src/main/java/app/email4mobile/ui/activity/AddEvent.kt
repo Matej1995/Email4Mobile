@@ -3,9 +3,9 @@ package app.email4mobile.ui.activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.arch.persistence.room.Room
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import android.widget.TextView
 import app.email4mobile.R
@@ -14,22 +14,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.widget.CompoundButton
 import android.widget.Toast
-import app.email4mobile.data.DbWorkerThread
 import app.email4mobile.data.EventsDataBase
-import app.email4mobile.entity.CalendarEvent
-import app.email4mobile.utils.isConnectedToInternet
-import app.email4mobile.utils.showToast
-import okhttp3.Response
-import timber.log.Timber
+import app.email4mobile.model.CalendarEvent
 
 
 class AddEvent : AppCompatActivity() {
 
-    private var mDb: EventsDataBase? = null
-
-    private lateinit var mDbWorkerThread: DbWorkerThread
-
-    private val mUiHandler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +28,15 @@ class AddEvent : AppCompatActivity() {
         setUpActualTimeDate()
         showAndHideTextViewHours()
 
-      mDb = EventsDataBase.getInstance(this)
 
 
 
+    }
+
+    private fun saveDataToDb(eventDatabase: EventsDataBase){
+        val addEvent = CalendarEvent(1, add_tittle.text.toString(), add_location.text.toString(), startPickerDate.text.toString() + " " + startPickerHours.text.toString(), endTimePickerDate.text.toString() + " "+ endTimePickerHours.text.toString(), repeat.text.toString(), alert.text.toString(), important.text.toString(), 123456 )
+        eventDatabase.eventsDataDao().insert(addEvent)
+        Toast.makeText(applicationContext, startPickerDate.text.toString(), Toast.LENGTH_LONG).show()
     }
 
     private fun setUpToolbar() {
@@ -57,16 +52,22 @@ class AddEvent : AppCompatActivity() {
     }
 
     private fun setUpActualTimeDate() {
-        val sdf = SimpleDateFormat("dd/M/yyyy")
+        val sdf = SimpleDateFormat("dd.MM.yyyy")
         val currentDate = sdf.format(Date())
         startPickerDate.text = currentDate
-        startPickerHours.text = (Date().hours.toString() + " : " + Date().minutes.toString())
+        startPickerHours.text = (Date().hours.toString() + ":" + Date().minutes.toString())
         endTimePickerDate.text = currentDate
-        endTimePickerHours.text = (Date().hours.plus(1).toString() + " : " + Date().minutes.toString())
+        endTimePickerHours.text = (Date().hours.plus(1).toString() + ":" + Date().minutes.toString())
     }
 
     fun clickOnDate(view: View) {
         val cal = Calendar.getInstance()
+
+        val eventDatabase =
+                Room.databaseBuilder(applicationContext, EventsDataBase::class.java, "EventDatabase")
+                        .allowMainThreadQueries()
+                        .build()
+
         val itemsForRepeat = arrayOf<CharSequence>("Only One", "Every Day", "One per year")
 
         val itemsForAllert = arrayOf<CharSequence>("30 minut", "60 minut", "1 day")
@@ -87,6 +88,8 @@ class AddEvent : AppCompatActivity() {
             R.id.alert -> selectEventCloseInfo(alertTitle, itemsForAllert)
 
             R.id.important -> selectEventCloseInfo(importantTitle, itemsForImportant)
+
+            R.id.saveDataToDb -> saveDataToDb(eventDatabase)
         }
 
 
@@ -108,7 +111,7 @@ class AddEvent : AppCompatActivity() {
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
             val myFormat = "dd.MM.yyyy" // mention the format you need
-            val sdf = SimpleDateFormat(myFormat, Locale.US)
+            val sdf = SimpleDateFormat(myFormat)
             textView.text = sdf.format(cal.time)
 
         }
@@ -125,7 +128,7 @@ class AddEvent : AppCompatActivity() {
             cal.set(Calendar.HOUR_OF_DAY, hour)
             cal.set(Calendar.MINUTE, minute)
 
-            textView.text = SimpleDateFormat("HH : mm").format(cal.time)
+            textView.text = SimpleDateFormat("HH:mm").format(cal.time)
         }
         TimePickerDialog(this@AddEvent, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
     }
@@ -144,11 +147,6 @@ class AddEvent : AppCompatActivity() {
 
 
 
-    override fun onDestroy() {
-        EventsDataBase.destroyInstance()
-        mDbWorkerThread.quit()
-        super.onDestroy()
-    }
 
 
 }

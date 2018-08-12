@@ -4,31 +4,26 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
-import app.email4mobile.entity.CalendarEvent
+import app.email4mobile.model.CalendarEvent
 
-@Database(entities = [(CalendarEvent::class)], version = 1)
+@Database(entities = [(CalendarEvent::class)], version = 2, exportSchema = false)
 abstract class EventsDataBase : RoomDatabase() {
 
     abstract fun eventsDataDao(): EventsDataDao
 
     companion object {
-        private var INSTANCE: EventsDataBase? = null
 
-        fun getInstance(context: Context): EventsDataBase? {
-            if (INSTANCE == null) {
-                synchronized(EventsDataBase::class) {
-                    INSTANCE = Room.databaseBuilder(context.applicationContext,
-                            EventsDataBase::class.java, "weather.db")
-                            .fallbackToDestructiveMigration()
-                            .build()
+        @Volatile private var INSTANCE: EventsDataBase? = null
+
+        fun getInstance(context: Context): EventsDataBase =
+                INSTANCE ?: synchronized(this) {
+                    INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
                 }
-            }
-            return INSTANCE
-        }
 
-        fun destroyInstance() {
-            INSTANCE = null
-        }
+        private fun buildDatabase(context: Context) =
+                Room.databaseBuilder(context.applicationContext,
+                        EventsDataBase::class.java, "Event.db")
+                        .build()
     }
 
 }
