@@ -20,6 +20,7 @@ import app.email4mobile.adapter.EmailAdapter
 import app.email4mobile.model.Email
 import app.email4mobile.ui.activity.AddEvent
 import app.email4mobile.ui.activity.SendEmail
+import app.email4mobile.viewmodel.CalendarFragmentViewModel
 import app.email4mobile.viewmodel.EmailViewModel
 import kotlinx.android.synthetic.main.fragment_calendar.*
 import kotlinx.android.synthetic.main.fragment_email.*
@@ -36,6 +37,9 @@ private const val ARG_PARAM2 = "param2"
 class EmailFragment : Fragment() {
 
     private var viewModel: EmailViewModel? = null
+
+
+
 
 
 

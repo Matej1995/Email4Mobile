@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import app.email4mobile.R
-import app.email4mobile.data.EventsDataBase
 import app.email4mobile.ui.fragments.CalendarFragment
 import app.email4mobile.ui.fragments.EmailFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -15,18 +14,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
 
-    private var eventDatabase: EventsDataBase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setFragment(EmailFragment())
         setUpNav()
-
-        eventDatabase =
-            Room.databaseBuilder(this, EventsDataBase::class.java, "EventDatabase")
-                    .allowMainThreadQueries()
-                    .build()
 
 
     }
@@ -45,7 +38,6 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_account -> {
-                    eventDatabase!!.eventsDataDao().deleteAll()
                     true
                 }
                 else -> {

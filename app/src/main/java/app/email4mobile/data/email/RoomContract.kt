@@ -8,6 +8,9 @@ class RoomContract {
         const val table_user = "email"
         const val select_from_user = select_from + table_user
 
+        const val table_event = "event"
+        const val select_from_event = select_from + table_event
+
     }
 
 }

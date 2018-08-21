@@ -1,6 +1,7 @@
 package app.email4mobile.ui.fragments
 
 
+import android.arch.lifecycle.ViewModelProviders
 import android.arch.persistence.room.Room
 import android.content.Intent
 import android.graphics.RectF
@@ -12,9 +13,9 @@ import android.view.ViewGroup
 
 
 import app.email4mobile.R
-import app.email4mobile.data.EventsDataBase
-import app.email4mobile.model.CalendarEvent
+import app.email4mobile.data.email.entity.CalendarEvent
 import app.email4mobile.ui.activity.AddEvent
+import app.email4mobile.viewmodel.CalendarFragmentViewModel
 import com.alamkanak.weekview.MonthLoader
 import com.alamkanak.weekview.WeekView
 import com.alamkanak.weekview.WeekViewEvent
@@ -22,6 +23,7 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_calendar.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,29 +38,63 @@ private const val ARG_PARAM2 = "param2"
  */
 class CalendarFragment : Fragment(), MonthLoader.MonthChangeListener, WeekView.EventClickListener, WeekView.EventLongPressListener {
 
-    private var eventList: MutableList<CalendarEvent> = ArrayList()
-    private var composibleDisposable: CompositeDisposable? = null
+    var eventList: MutableList<WeekViewEvent> = ArrayList()
+    private var composibleDisposable = CompositeDisposable()
 
-    private var eventDatabase: EventsDataBase? = null
+
+
+
+
+    private var viewModelCalendar: CalendarFragmentViewModel? = null
 
     override fun onMonthChange(newYear: Int, newMonth: Int): MutableList<out WeekViewEvent>? {
 
         val events = mutableListOf<WeekViewEvent>()
 
+        val new  = newYear
+        val newnew = newMonth
+        val puf = Calendar.getInstance()
+        val xa = puf.timeInMillis
 
-       /*  val listEventDatabase: MutableList<CalendarEvent> = eventDatabase!!.eventsDataDao().getEvents()
-        listEventDatabase.forEach {
-            val startTime = fromStringToDate(it.startTime)
-            val endTime = fromStringToDate(it.endTime)
-            val eventForCalendar = WeekViewEvent(1, "Ahoj", startTimeEvent(startTime), startTimeEvent(endTime))
-            events.add(eventForCalendar)
+        val x = 5
+
+        val startTime = Calendar.getInstance()
+        startTime.set(Calendar.HOUR_OF_DAY, 3)
+        startTime.set(Calendar.MINUTE, 0)
+        startTime.set(Calendar.MONTH, newMonth - 1)
+        startTime.set(Calendar.YEAR, newYear)
+        val endTime = startTime.clone() as Calendar
+        endTime.add(Calendar.HOUR, 1)
+        endTime.set(Calendar.MONTH, newMonth - 1)
+        val eventWeek = WeekViewEvent(1, getEventTitle(startTime), startTime, endTime)
+        eventWeek?.color = resources.getColor(R.color.colorAccent)
+        eventList.add(eventWeek)
+
+
+        for (item in eventList) {
+            if (eventMatches(item, newYear, newMonth)) {
+                events.add(item)
+            }
         }
-        listEventDatabase.size
-        events.size
-        val t = 5
-        */
+
+
+        /*  val listEventDatabase: MutableList<CalendarEvent> = eventDatabase!!.eventsDataDao().getEvents()
+         listEventDatabase.forEach {
+             val startTime = fromStringToDate(it.startTime)
+             val endTime = fromStringToDate(it.endTime)
+             val eventForCalendar = WeekViewEvent(1, "Ahoj", startTimeEvent(startTime), startTimeEvent(endTime))
+             events.add(eventForCalendar)
+         }
+         listEventDatabase.size
+         events.size
+         val t = 5
+         */
         return events
 
+    }
+
+    private fun eventMatches(event: WeekViewEvent, year: Int, month: Int): Boolean {
+        return event.startTime.get(Calendar.YEAR) == year && event.startTime.get(Calendar.MONTH) == month - 1 || event.endTime.get(Calendar.YEAR) == year && event.endTime.get(Calendar.MONTH) == month - 1
     }
 
     fun startTimeEvent(event: Calendar): Calendar? {
@@ -82,16 +118,9 @@ class CalendarFragment : Fragment(), MonthLoader.MonthChangeListener, WeekView.E
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        eventDatabase = context?.let {
-            Room.databaseBuilder(it, EventsDataBase::class.java, "EventDatabase")
-                    .allowMainThreadQueries()
-                    .build()
-        }
-
+        viewModelCalendar = ViewModelProviders.of(this).get(CalendarFragmentViewModel::class.java)
 
     }
-
 
     override fun onEventClick(event: WeekViewEvent?, eventRect: RectF?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -105,8 +134,6 @@ class CalendarFragment : Fragment(), MonthLoader.MonthChangeListener, WeekView.E
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-
-
         return inflater.inflate(R.layout.fragment_calendar, container, false)
 
     }
@@ -123,21 +150,35 @@ class CalendarFragment : Fragment(), MonthLoader.MonthChangeListener, WeekView.E
         weekView.setEventLongPressListener(this)
 
 
-        clickFloatButton(eventDatabase!!)
+        clickFloatButton()
 
     }
 
 
-    private fun deleteAllEvents() {
-        eventDatabase!!.eventsDataDao().deleteAll()
-    }
-
-
-    private fun clickFloatButton(eventDatabase: EventsDataBase) {
+    private fun clickFloatButton() {
         floatingActionButton.setOnClickListener {
             val intent = Intent(context, AddEvent::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, 1)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val event = data?.getParcelableExtra<CalendarEvent>("event")
+
+        val startTime = Calendar.getInstance()
+        startTime.set(Calendar.HOUR_OF_DAY, 3)
+        startTime.set(Calendar.MINUTE, 0)
+        startTime.set(Calendar.MONTH, 8 - 1)
+        startTime.set(Calendar.YEAR, 2018)
+        val endTime = startTime.clone() as Calendar
+        endTime.add(Calendar.HOUR, 1)
+        endTime.set(Calendar.MONTH, 2018 - 1)
+        val eventWeek = WeekViewEvent(1, getEventTitle(startTime), startTime, endTime)
+        eventWeek?.color = resources.getColor(R.color.colorAccent)
+
+        eventList.add(eventWeek)
+        weekView.notifyDatasetChanged()
     }
 
     protected fun getEventTitle(time: Calendar): String {
@@ -169,7 +210,5 @@ class CalendarFragment : Fragment(), MonthLoader.MonthChangeListener, WeekView.E
           }
       }
       */
-
-
 }
 

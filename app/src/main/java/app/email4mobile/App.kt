@@ -2,7 +2,6 @@ package app.email4mobile
 
 import android.app.Application
 import android.arch.persistence.room.Room
-import app.email4mobile.data.EventsDataBase
 import app.email4mobile.di.component.AppComponent
 import app.email4mobile.di.component.DaggerAppComponent
 import app.email4mobile.di.module.AppModule
@@ -17,15 +16,10 @@ class App : Application() {
     }
 
 
-    var eventsDataBase: EventsDataBase? = null
 
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        eventsDataBase =
-                Room.databaseBuilder(applicationContext, EventsDataBase::class.java, "EventDatabase")
-                        .allowMainThreadQueries()
-                        .build()
         initializeDagger()
 
     }

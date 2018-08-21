@@ -3,7 +3,9 @@ package app.email4mobile.ui.activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.arch.lifecycle.ViewModelProviders
 import android.arch.persistence.room.Room
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,12 +15,16 @@ import kotlinx.android.synthetic.main.activity_add_event.*
 import java.text.SimpleDateFormat
 import java.util.*
 import android.widget.CompoundButton
-import android.widget.Toast
-import app.email4mobile.data.EventsDataBase
-import app.email4mobile.model.CalendarEvent
+import app.email4mobile.data.email.entity.CalendarEvent
+import app.email4mobile.viewmodel.AddEventViewModel
+import app.email4mobile.viewmodel.CalendarFragmentViewModel
 
 
 class AddEvent : AppCompatActivity() {
+
+
+    private var viewModel: CalendarFragmentViewModel? = null
+    private var viewModelForAddEvent: AddEventViewModel? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,14 +35,19 @@ class AddEvent : AppCompatActivity() {
         showAndHideTextViewHours()
 
 
+        viewModel = ViewModelProviders.of(this).get(CalendarFragmentViewModel::class.java)
+        viewModelForAddEvent = ViewModelProviders.of(this).get(AddEventViewModel::class.java)
+
 
 
     }
 
-    private fun saveDataToDb(eventDatabase: EventsDataBase){
-        val addEvent = CalendarEvent(1, add_tittle.text.toString(), add_location.text.toString(), startPickerDate.text.toString() + " " + startPickerHours.text.toString(), endTimePickerDate.text.toString() + " "+ endTimePickerHours.text.toString(), repeat.text.toString(), alert.text.toString(), important.text.toString(), 123456 )
-        eventDatabase.eventsDataDao().insert(addEvent)
-        Toast.makeText(applicationContext, startPickerDate.text.toString(), Toast.LENGTH_LONG).show()
+    private fun saveDataToDb(){
+        val addEvent = CalendarEvent(1, add_tittle.text.toString(), add_location.text.toString(), R.id.startPickerDate.toString() + " " + startPickerHours.text.toString(), endTimePickerDate.text.toString() + " "+ endTimePickerHours.text.toString(), repeat.text.toString(), alert.text.toString(), important.text.toString(), 123456 )
+        val intent = intent
+        intent.putExtra("event", addEvent)
+        setResult(1, intent)
+        finish()
     }
 
     private fun setUpToolbar() {
@@ -63,11 +74,6 @@ class AddEvent : AppCompatActivity() {
     fun clickOnDate(view: View) {
         val cal = Calendar.getInstance()
 
-        val eventDatabase =
-                Room.databaseBuilder(applicationContext, EventsDataBase::class.java, "EventDatabase")
-                        .allowMainThreadQueries()
-                        .build()
-
         val itemsForRepeat = arrayOf<CharSequence>("Only One", "Every Day", "One per year")
 
         val itemsForAllert = arrayOf<CharSequence>("30 minut", "60 minut", "1 day")
@@ -89,7 +95,7 @@ class AddEvent : AppCompatActivity() {
 
             R.id.important -> selectEventCloseInfo(importantTitle, itemsForImportant)
 
-            R.id.saveDataToDb -> saveDataToDb(eventDatabase)
+            R.id.saveDataToDb -> saveDataToDb()
         }
 
 
