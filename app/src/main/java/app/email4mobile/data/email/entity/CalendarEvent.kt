@@ -3,6 +3,8 @@ package app.email4mobile.data.email.entity
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Parcel
 import android.os.Parcelable
 import app.email4mobile.data.email.RoomContract

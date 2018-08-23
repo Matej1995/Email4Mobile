@@ -6,4 +6,18 @@
 
     <color name="colorWhite">#ffffff</color>
     <color name="colorWhiteTransparent">#80ffff</color>
+
+
+    <color name="md_blue_500">#2196f3</color>
+
+    <array name="demo_colors">
+        <item>#f44336</item>
+        <item>#e91e63</item>
+        <item>#9c27b0</item>
+        <item>#673ab7</item>
+        <item>#3f51b5</item>
+        <item>#03a9f4</item>
+        <item>#9ccc65</item>
+        <item>#dce775</item>
+    </array>
 </resources>

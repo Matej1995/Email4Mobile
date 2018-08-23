@@ -8,12 +8,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import app.email4mobile.R
 import app.email4mobile.databinding.ItemRowEmailBinding
-import app.email4mobile.model.Email
+import app.email4mobile.model.User
 import app.email4mobile.ui.activity.DetailEmail
+import com.bumptech.glide.Glide
 
-class EmailAdapter(emailList: ArrayList<Email>): RecyclerView.Adapter<EmailAdapter.UViewHolder>() {
+class EmailAdapter(emailList: ArrayList<User>): RecyclerView.Adapter<EmailAdapter.UViewHolder>() {
 
-    private val emailList: MutableList<Email>? = emailList
+    private val userList: MutableList<User>? = emailList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -23,23 +24,23 @@ class EmailAdapter(emailList: ArrayList<Email>): RecyclerView.Adapter<EmailAdapt
     }
 
     override fun getItemCount(): Int {
-        return emailList!!.size
+        return userList!!.size
     }
 
     override fun onBindViewHolder(holder: UViewHolder, position: Int) {
-        holder.bindItemm(emailList!![position])
-        val email = emailList[position]
+        holder.bindItemm(userList!![position])
+        val user = userList[position]
+
+
+        Glide.with(holder.itemView.context).load(user.avatar_url).preload()
+        Glide.with(holder.itemView.context).load(user.avatar_url).into(holder.itemRowUserBinding?.avatar)
 
         holder.itemView.setOnClickListener {
             val i = Intent(holder.itemView.context, DetailEmail::class.java)
-            i.putExtra("emailnName", email.name)
-            i.putExtra("emailEmail", email.email)
+            i.putExtra("username", user.login)
             holder.itemView.context.startActivity(i)
         }
-
-
     }
-
 
     inner class UViewHolder : RecyclerView.ViewHolder {
         var itemRowUserBinding: ItemRowEmailBinding? = null
@@ -48,13 +49,12 @@ class EmailAdapter(emailList: ArrayList<Email>): RecyclerView.Adapter<EmailAdapt
             this.itemRowUserBinding = binding
         }
 
-        internal fun bindItemm(email: Email){
-            itemRowUserBinding?.model = email
+        internal fun bindItemm(user: User){
+            itemRowUserBinding?.model = user
             itemRowUserBinding?.executePendingBindings()
         }
 
     }
-
 }
 
 

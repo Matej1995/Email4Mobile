@@ -1,7 +1,6 @@
 package app.email4mobile
 
-import android.app.Application
-import android.arch.persistence.room.Room
+import android.support.multidex.MultiDexApplication
 import app.email4mobile.di.component.AppComponent
 import app.email4mobile.di.component.DaggerAppComponent
 import app.email4mobile.di.module.AppModule
@@ -9,13 +8,11 @@ import app.email4mobile.di.module.NetModule
 import app.email4mobile.di.module.RoomModule
 import timber.log.Timber
 
-class App : Application() {
+class App : MultiDexApplication() {
 
     companion object {
         lateinit var appComponent: AppComponent
     }
-
-
 
     override fun onCreate() {
         super.onCreate()
@@ -31,5 +28,4 @@ class App : Application() {
                 .netModule(NetModule(this)).build()
 
     }
-
 }

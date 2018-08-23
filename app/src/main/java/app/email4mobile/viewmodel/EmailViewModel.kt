@@ -3,6 +3,7 @@ package app.email4mobile.viewmodel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import app.email4mobile.model.Email
+import app.email4mobile.model.User
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -16,18 +17,18 @@ class EmailViewModel : BaseViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
-    private var liveData: LiveData<List<Email>>? = null
+    private var liveData: LiveData<List<User>>? = null
 
-    fun getEmails(): MutableLiveData<List<Email>> {
-        return repository.getEmail()
+    fun getUsers(): MutableLiveData<List<User>> {
+        return repository.getUser()
     }
 
     fun sendEmail(name: String, email: String){
         return repository.addNewEmail(name, email)
     }
 
-    fun addUserToLocal(email: List<Email>) {
-        Completable.fromAction { repository.addEmailToLocal(email) }
+    fun addUserToLocal(email: List<User>) {
+        Completable.fromAction { repository.addUserToLocal(email) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : CompletableObserver {
@@ -44,14 +45,13 @@ class EmailViewModel : BaseViewModel() {
                         Timber.i("DataSource hasn't been populated")
                     }
                 })
-
     }
 
 
-    fun getUserFromLocal(): LiveData<List<Email>>? {
+    fun getUserFromLocal(): LiveData<List<User>>? {
         if (liveData == null) {
-            liveData = MutableLiveData<List<Email>>()
-            liveData = repository.getEmailLocal()
+            liveData = MutableLiveData<List<User>>()
+            liveData = repository.getUserLocal()
         }
         return liveData
 

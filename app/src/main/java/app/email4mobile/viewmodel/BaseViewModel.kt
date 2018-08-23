@@ -3,7 +3,6 @@ package app.email4mobile.viewmodel
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ViewModel
-import android.arch.persistence.room.RoomDatabase
 import app.email4mobile.App
 import app.email4mobile.data.email.RoomData
 import app.email4mobile.repository.EmailRepository

@@ -54,27 +54,22 @@
             android:hint="Location" />
 
 
-        <Switch
-            android:id="@+id/switch1"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/addSwitch80dp"
-            android:layout_below="@id/add_location"
-            android:text="Celodenní" />
-
 
         <TextView
             android:id="@+id/startPickerDate"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/addEditTest50dp"
-            android:layout_below="@id/switch1"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/add_location"
             android:onClick="clickOnDate" />
 
         <TextView
             android:id="@+id/startPickerHours"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/addEditTest50dp"
+            android:layout_marginTop="15dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/switch1"
+            android:layout_below="@id/add_location"
             android:onClick="clickOnDate" />
 
         <TextView
@@ -140,6 +135,22 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/alertTitle"
             android:text="Osobní" />
+        <TextView
+            android:id="@+id/colorPuf"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/addEditTest50dp"
+            android:layout_below="@id/important"
+            android:onClick="clickOnDate"
+            android:hint="-14650801"
+            android:text="Barva" />
+
+        <View
+            android:id="@+id/colorTitle"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:background="#20724f"
+            android:layout_below="@id/importantTitle" />
 
     </RelativeLayout>
 </RelativeLayout>

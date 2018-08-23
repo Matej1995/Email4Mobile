@@ -1,17 +1,18 @@
 package app.email4mobile.repository
 
 import android.arch.lifecycle.MutableLiveData
-import app.email4mobile.model.Email
+import app.email4mobile.model.User
+import app.email4mobile.model.UserDetail
 
 interface IEmailRepository {
 
-    fun getEmail(): MutableLiveData<List<Email>>
+    fun getUser(): MutableLiveData<List<User>>
 
-    fun getEmailDetail(login: String): MutableLiveData<Email>
+    fun getUserDetail(login: String): MutableLiveData<UserDetail>
 
-    fun addEmailToLocal(listUser : List<Email>)
+    fun addUserToLocal(listUser : List<User>)
 
-    fun getEmailLocal(): MutableLiveData<List<Email>>
+    fun getUserLocal(): MutableLiveData<List<User>>
 
     fun addNewEmail(name: String, email: String)
 

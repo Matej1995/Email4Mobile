@@ -19,17 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.AddEvent">
-
-        </activity>
-
-        <activity android:name=".ui.activity.SendEmail">
-
-        </activity>
-
-        <activity android:name=".ui.activity.DetailEmail">
-
-        </activity>
+        <activity android:name=".ui.activity.AddEvent"></activity>
+        <activity android:name=".ui.activity.SendEmail"></activity>
+        <activity android:name=".ui.activity.DetailEmail"></activity>
+        <activity android:name=".ui.activity.DetailEvent"></activity>
     </application>
 
 </manifest>

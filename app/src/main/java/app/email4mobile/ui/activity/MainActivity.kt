@@ -9,6 +9,10 @@ import app.email4mobile.R
 import app.email4mobile.ui.fragments.CalendarFragment
 import app.email4mobile.ui.fragments.EmailFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import android.widget.Toast
+import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +28,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+
     fun setUpNav() {
         main_nav.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -38,6 +44,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_account -> {
+
                     true
                 }
                 else -> {
@@ -50,6 +57,7 @@ class MainActivity : AppCompatActivity() {
     private fun setFragment(fragment: Fragment) {
      val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.main_frame, fragment)
+        transaction.addToBackStack(null)
         transaction.commit()
     }
 }

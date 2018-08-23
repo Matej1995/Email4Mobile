@@ -1,10 +1,8 @@
 package app.email4mobile.data.email
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import app.email4mobile.data.email.entity.CalendarEvent
+import com.alamkanak.weekview.WeekViewEvent
 import io.reactivex.Flowable
 
 @Dao
@@ -14,5 +12,8 @@ interface EventsDao {
     fun insertAll(event: CalendarEvent)
 
     @Query(RoomContract.select_from_event)
-    fun selectAll(): Flowable<List<CalendarEvent>>
+    fun selectAll(): MutableList<CalendarEvent>
+
+    @Delete
+    fun deleteEvent(event: CalendarEvent)
 }

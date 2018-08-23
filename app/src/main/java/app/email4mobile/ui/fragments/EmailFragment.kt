@@ -18,11 +18,9 @@ import android.widget.Toast
 import app.email4mobile.R
 import app.email4mobile.adapter.EmailAdapter
 import app.email4mobile.model.Email
-import app.email4mobile.ui.activity.AddEvent
+import app.email4mobile.model.User
 import app.email4mobile.ui.activity.SendEmail
-import app.email4mobile.viewmodel.CalendarFragmentViewModel
 import app.email4mobile.viewmodel.EmailViewModel
-import kotlinx.android.synthetic.main.fragment_calendar.*
 import kotlinx.android.synthetic.main.fragment_email.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,27 +37,24 @@ class EmailFragment : Fragment() {
     private var viewModel: EmailViewModel? = null
 
 
-
-
-
-
     override fun onStart() {
         super.onStart()
         viewModel = ViewModelProviders.of(this).get(EmailViewModel::class.java)
         featchData()
         swipeRefreshLayout.setOnRefreshListener { featchData() }
         openToSendNewEmail()
+
     }
 
     private fun featchData() {
         swipeRefreshLayout.isRefreshing = true
-        viewModel?.getEmails()?.observe(this,
-                Observer { emailist ->
-                    if (emailist != null) {
-                        viewModel?.addUserToLocal(emailist)
+        viewModel?.getUsers()?.observe(this,
+                Observer { userList ->
+                    if (userList != null) {
+                        viewModel?.addUserToLocal(userList)
 
                         rv.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-                       rv.adapter = EmailAdapter(emailist as ArrayList<Email>)
+                       rv.adapter = EmailAdapter(userList as ArrayList<User>)
 
                     } else {
                         callDataFromLocal()
@@ -67,6 +62,7 @@ class EmailFragment : Fragment() {
                     }
                     swipeRefreshLayout.isRefreshing = false
                 })
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -79,7 +75,7 @@ class EmailFragment : Fragment() {
     fun callDataFromLocal(){
         viewModel?.getUserFromLocal()?.observe(this, Observer { userList ->
             rv.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-            rv.adapter = EmailAdapter(userList as ArrayList<Email>)
+            rv.adapter = EmailAdapter(userList as ArrayList<User>)
         })
     }
 

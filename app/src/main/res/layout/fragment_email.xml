@@ -7,6 +7,43 @@
     tools:context=".ui.fragments.EmailFragment">
 
 
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/app_name"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -21,12 +58,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         tools:context=".view.MainActivity">
 
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -34,13 +73,23 @@
                 android:id="@+id/rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="140dp"
+                android:clipToPadding="false"
+                android:paddingTop="25dp"
                 tools:listitem="@layout/item_row_email" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
 
-
-
     </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/calendarFragmentNav"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/white"
+        app:headerLayout="@layout/nav_drawer_row_email"/>
+</android.support.v4.widget.DrawerLayout>
 
 </FrameLayout>

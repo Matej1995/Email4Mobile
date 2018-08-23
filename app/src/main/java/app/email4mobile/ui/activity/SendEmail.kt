@@ -15,7 +15,7 @@ class SendEmail : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.send_email)
         viewModel = ViewModelProviders.of(this).get(SendEmailViewModel::class.java)
-        viewModel!!.sendEmail("Ahoj", "test")
+       // viewModel!!.sendEmail("Ahoj", "test")
     }
 
 

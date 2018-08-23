@@ -40,13 +40,15 @@ class NetModule(private val application: Application){
         }
         return httpClient.build()
     }
+    // uuu http://mailvm.canadaeast.cloudapp.azure.com/
     // "http://mailvm.canadaeast.cloudapp.azure.com/"
     // Test api: "https://api.github.com/"
+
     @Provides
     @Singleton
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit =
             Retrofit.Builder()
-                    .baseUrl("http://mailvm.canadaeast.cloudapp.azure.com/")
+                    .baseUrl("https://api.github.com/")
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(okHttpClient)
