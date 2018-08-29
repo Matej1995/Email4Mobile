@@ -4,10 +4,9 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import app.email4mobile.R
-import app.email4mobile.viewmodel.EmailViewModel
 import app.email4mobile.viewmodel.SendEmailViewModel
 
-class SendEmail : AppCompatActivity(){
+class SendEmailActivity : AppCompatActivity() {
 
     private var viewModel: SendEmailViewModel? = null
 
@@ -15,8 +14,6 @@ class SendEmail : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.send_email)
         viewModel = ViewModelProviders.of(this).get(SendEmailViewModel::class.java)
-       // viewModel!!.sendEmail("Ahoj", "test")
+        // viewModel!!.sendEmail("Ahoj", "test")
     }
-
-
 }

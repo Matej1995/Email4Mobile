@@ -2,7 +2,6 @@ package app.email4mobile.viewmodel
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import app.email4mobile.model.Email
 import app.email4mobile.model.User
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
@@ -23,7 +22,7 @@ class EmailViewModel : BaseViewModel() {
         return repository.getUser()
     }
 
-    fun sendEmail(name: String, email: String){
+    fun sendEmail(name: String, email: String) {
         return repository.addNewEmail(name, email)
     }
 
@@ -47,16 +46,11 @@ class EmailViewModel : BaseViewModel() {
                 })
     }
 
-
     fun getUserFromLocal(): LiveData<List<User>>? {
         if (liveData == null) {
             liveData = MutableLiveData<List<User>>()
             liveData = repository.getUserLocal()
         }
         return liveData
-
     }
-
-
-
 }

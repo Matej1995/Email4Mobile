@@ -7,6 +7,5 @@ class DetailUserViewModel : BaseViewModel() {
 
     fun getUserDetail(login: String): LiveData<UserDetail>? {
         return repository.getUserDetail(login)
-
     }
 }

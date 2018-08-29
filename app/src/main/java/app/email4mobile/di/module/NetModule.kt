@@ -58,5 +58,4 @@ class NetModule(private val application: Application){
     @Singleton
     fun providesApiService(retrofit: Retrofit): RemoteService = retrofit.create(RemoteService::class.java)
 
-
 }

@@ -2,9 +2,7 @@ package app.email4mobile.repository
 
 import android.arch.lifecycle.MutableLiveData
 import app.email4mobile.data.email.RoomData
-import app.email4mobile.data.email.entity.EmailEntity
 import app.email4mobile.data.email.entity.UserEntity
-import app.email4mobile.model.Email
 import app.email4mobile.model.User
 import app.email4mobile.model.UserDetail
 import app.email4mobile.remote.RemoteData
@@ -102,9 +100,6 @@ class EmailRepository
     override fun deleteEmailByID(id: Int) {
         remoteData.netCallDeleteEmailByID(id)
     }
-
-
-
 
 
     private fun transform(users: List<UserEntity>): ArrayList<User> {

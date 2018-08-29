@@ -1,5 +1,3 @@
-
-
 package app.email4mobile.ui.fragments
 
 
@@ -14,19 +12,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
-
 import app.email4mobile.R
 import app.email4mobile.adapter.EmailAdapter
-import app.email4mobile.model.Email
 import app.email4mobile.model.User
-import app.email4mobile.ui.activity.SendEmail
+import app.email4mobile.ui.activity.SendEmailActivity
 import app.email4mobile.viewmodel.EmailViewModel
 import kotlinx.android.synthetic.main.fragment_email.*
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -34,31 +25,28 @@ private const val ARG_PARAM2 = "param2"
  */
 class EmailFragment : Fragment() {
 
-    private var viewModel: EmailViewModel? = null
-
+    private val viewModel: EmailViewModel? by lazy {
+        ViewModelProviders.of(this).get(EmailViewModel::class.java)
+    }
 
     override fun onStart() {
         super.onStart()
-        viewModel = ViewModelProviders.of(this).get(EmailViewModel::class.java)
-        featchData()
-        swipeRefreshLayout.setOnRefreshListener { featchData() }
+        fetchData()
+        swipeRefreshLayout.setOnRefreshListener { fetchData() }
         openToSendNewEmail()
-
     }
 
-    private fun featchData() {
+    private fun fetchData() {
         swipeRefreshLayout.isRefreshing = true
         viewModel?.getUsers()?.observe(this,
                 Observer { userList ->
                     if (userList != null) {
                         viewModel?.addUserToLocal(userList)
-
                         rv.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-                       rv.adapter = EmailAdapter(userList as ArrayList<User>)
-
+                        rv.adapter = EmailAdapter(userList as ArrayList<User>)
                     } else {
                         callDataFromLocal()
-                        Toast.makeText(context, "Failed Fetching Remote Data", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, getString(R.string.FailedFetchData), Toast.LENGTH_LONG).show()
                     }
                     swipeRefreshLayout.isRefreshing = false
                 })
@@ -71,20 +59,17 @@ class EmailFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_email, container, false)
     }
 
-
-    fun callDataFromLocal(){
+    fun callDataFromLocal() {
         viewModel?.getUserFromLocal()?.observe(this, Observer { userList ->
             rv.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
             rv.adapter = EmailAdapter(userList as ArrayList<User>)
         })
     }
 
-    fun openToSendNewEmail(){
+    fun openToSendNewEmail() {
         fab.setOnClickListener {
-            val intent = Intent(context, SendEmail::class.java)
+            val intent = Intent(context, SendEmailActivity::class.java)
             startActivity(intent)
         }
     }
-
-
 }

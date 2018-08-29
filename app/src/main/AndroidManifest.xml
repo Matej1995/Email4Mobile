@@ -5,24 +5,25 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:name=".App"
+        android:name=".BaseApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.MainActivity">
+        <activity android:name=".ui.activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.AddEvent"></activity>
-        <activity android:name=".ui.activity.SendEmail"></activity>
-        <activity android:name=".ui.activity.DetailEmail"></activity>
-        <activity android:name=".ui.activity.DetailEvent"></activity>
+        <activity android:name=".ui.activity.AddEventActivity"></activity>
+        <activity android:name=".ui.activity.SendEmailActivity"></activity>
+        <activity android:name=".ui.activity.DetailEmailActivity"></activity>
+        <activity android:name=".ui.activity.DetailEventActivity"></activity>
     </application>
 
 </manifest>

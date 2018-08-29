@@ -8,7 +8,7 @@ import app.email4mobile.di.module.NetModule
 import app.email4mobile.di.module.RoomModule
 import timber.log.Timber
 
-class App : MultiDexApplication() {
+class BaseApp : MultiDexApplication() {
 
     companion object {
         lateinit var appComponent: AppComponent
@@ -18,7 +18,6 @@ class App : MultiDexApplication() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         initializeDagger()
-
     }
 
     private fun initializeDagger() {
@@ -26,6 +25,5 @@ class App : MultiDexApplication() {
                 .appModule(AppModule(this))
                 .roomModule(RoomModule())
                 .netModule(NetModule(this)).build()
-
     }
 }

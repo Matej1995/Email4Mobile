@@ -1,13 +1,11 @@
 package app.email4mobile.remote
 
-import app.email4mobile.model.Email
 import app.email4mobile.model.User
 import app.email4mobile.model.UserDetail
 import io.reactivex.Observable
 import retrofit2.http.*
 
 interface RemoteService {
-
 
     @GET(RemoteContract.API_GET_USER)
     fun netCallGetEmail(): Observable<List<User>>
@@ -22,6 +20,5 @@ interface RemoteService {
 
     @DELETE("")
     fun deteleEmailByID(@Path("id")emailID: Int)
-
 
 }

@@ -10,7 +10,7 @@ interface IEmailRepository {
 
     fun getUserDetail(login: String): MutableLiveData<UserDetail>
 
-    fun addUserToLocal(listUser : List<User>)
+    fun addUserToLocal(listUser: List<User>)
 
     fun getUserLocal(): MutableLiveData<List<User>>
 

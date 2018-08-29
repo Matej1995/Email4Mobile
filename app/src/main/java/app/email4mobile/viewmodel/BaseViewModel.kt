@@ -3,7 +3,7 @@ package app.email4mobile.viewmodel
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ViewModel
-import app.email4mobile.App
+import app.email4mobile.BaseApp
 import app.email4mobile.data.email.RoomData
 import app.email4mobile.repository.EmailRepository
 import io.reactivex.disposables.CompositeDisposable
@@ -18,14 +18,11 @@ open class BaseViewModel : ViewModel() {
     @Inject
     lateinit var room: RoomData
 
-    init {
-        App.appComponent.inject(this)
-    }
+    init { BaseApp.appComponent.inject(this) }
 
     override fun onCleared() {
         unSubscribeViewModel()
         super.onCleared()
-
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
@@ -34,7 +31,5 @@ open class BaseViewModel : ViewModel() {
             compositeDisposable.addAll(disposable)
         }
         compositeDisposable.clear()
-
     }
-
 }

@@ -4,10 +4,8 @@ import app.email4mobile.data.email.entity.CalendarEvent
 
 class AddEventViewModel : BaseViewModel() {
 
-
     fun addEventToDatabase(event: CalendarEvent) = room.eventDao().insertAll(event)
 
     fun selectAllEvents(): MutableList<CalendarEvent> = room.eventDao().selectAll()
-
 
 }
